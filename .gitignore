@@ -92,4 +92,5 @@ ENV/
 .ropeproject
 
 .idea/
-
+heter_data/__pycache__/
+result/
