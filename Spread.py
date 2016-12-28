@@ -37,7 +37,7 @@ class ICMethod(SpreadMethod):
     def determin_spread(cls, g, target, sources):
         rands = np.random.random(len(sources))
         for s, r in zip(sources, rands):
-            if g.edge[s][target]['icm_prob'] > r:
+            if g.edge[s][target]['icm_prob'] < r:
                 return True
         return False
 
@@ -48,6 +48,10 @@ class ICMethod(SpreadMethod):
             return True
         else:
             return False
+
+    @classmethod
+    def clear_icm_status(cls):
+        cls.icm_status.clear()
 
 class Diffusion_Simulation:
     def __init__(self, network, spread_method, prec_neighbors=None):
@@ -72,6 +76,7 @@ class Diffusion_Simulation:
 
     def simulation(self, seed_vertices, seed_type, iter_maximum):
 
+        ICMethod.clear_icm_status()
         g = self.network
 
         # 种子节点初始状态
@@ -124,7 +129,20 @@ class Diffusion_Simulation:
             if g.node[v]['category'] == seed_type and v in active_vertices:
                 target_actived_num += 1
 
-        return target_actived_num
+        target_n = 0
+        for v in g.nodes_iter():
+            if g.node[v]['category'] == seed_type:
+                target_n += 1
+
+        res = {}
+        res['target_a_n'] = target_actived_num
+        res['other_a_n'] = len(active_vertices) - target_actived_num
+        res['target_n'] = target_n
+        res['other_n'] = g.number_of_nodes() - target_n
+        res['all_a_n'] = len(active_vertices)
+        res['all_n'] = g.number_of_nodes()
+
+        return res
 
 
 
