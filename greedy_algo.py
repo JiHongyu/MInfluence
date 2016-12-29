@@ -51,7 +51,7 @@ spread_methods = {('t1', 't1'): SP.LTMethod,
 simulator = SP.Diffusion_Simulation(g, spread_methods)
 
 K = 30
-repeat_number = 5
+repeat_number = 10
 A = set()
 target_type = 't1'
 
@@ -112,9 +112,11 @@ for iter_n in range(K):
 
 df = pd.DataFrame(data=res, columns=[
     'ga_t', 'ga_o', 'degree_t', 'degree_o', 'eigv_t', 'eigv_o'])
-df.plot()
+
+df.plot(y=['ga_t', 'degree_t', 'eigv_t'])
 plt.show()
 
-
+df.plot(y=['ga_o', 'degree_o', 'eigv_o'])
+plt.show()
 
 
