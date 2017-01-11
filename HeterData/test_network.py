@@ -8,7 +8,10 @@ import numpy as np
 
 import SPAlgorithm as SP
 
-class TestData():
+from .abc_network import ABC
+
+
+class TestData(ABC):
 
     def __init__(self, new_data=False):
 

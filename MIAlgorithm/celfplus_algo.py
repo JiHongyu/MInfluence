@@ -38,15 +38,16 @@ class CelfPlus(ABC):
             celf = SCELF(v)
             d = self.simulator.simulation({v}, self.target_type)
             celf.mg1 = d['target_a_n']
-
+            celf.g1 = d['target_a_n']
             if cur_best is None:
                 celf.prev_best = v
                 celf.mg2 = celf.mg1
+                celf.g2 = celf.g1
             else:
                 celf.prev_best = cur_best
                 d = self.simulator.simulation({v, cur_best}, self.target_type)
                 celf.mg2 = d['target_a_n']
-
+                celf.g2 = d['target_a_n']
             heapq.heappush(hp, celf)
             cur_best = hp[0].v
 
@@ -65,6 +66,7 @@ class CelfPlus(ABC):
                 self.a_vertices_order.append(celf.v)
                 last_seed = celf.v
                 info.append(celf.g1)
+                cur_best = hp[0].v
                 continue
             elif celf.prev_best == last_seed:
                 celf.mg1, celf.g1 = celf.mg2, celf.g2

@@ -84,7 +84,6 @@ class NetworkDiffusion:
 
             # 初始化激活节点和静默节点集合
             active_vertices = set(seed_vertices)
-            silence_vertices = set(g.nodes()) - active_vertices
 
             # 迭代传播时当前激活节点和前次迭代时的激活节点集
             pre_iter_actives = seed_vertices

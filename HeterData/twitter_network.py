@@ -4,8 +4,10 @@ import networkx as nx
 import numpy as np
 
 import SPAlgorithm as SP
+from .abc_network import ABC
 
-class TwitterData:
+
+class TwitterData(ABC):
 
     def __init__(self, path):
 
@@ -21,7 +23,7 @@ class TwitterData:
             self.network.node[n]['status'] = False
 
         for u, v in self.network.edges_iter():
-            self.network.edge[u][v]['icm_prob'] = np.random.random() / 10
+            self.network.edge[u][v]['icm_prob'] = np.random.random() / 1
             self.network.edge[u][v]['ltm_infl'] = np.random.random()
 
         for u in self.network.nodes_iter():
@@ -32,8 +34,8 @@ class TwitterData:
                 for v in cate[c]:
                     self.network.edge[v][u]['ltm_infl'] /= len(cate[c])
 
-        self.spread_methods = {('user', 'user'):   SP.LTMethod,
-                               ('tweet', 'tweet'): SP.LTMethod,
+        self.spread_methods = {('user', 'user'):   SP.ICMethod,
+                               ('tweet', 'tweet'): SP.ICMethod,
                                ('user', 'tweet'):  SP.ICMethod,
                                ('tweet', 'user'):  SP.ICMethod}
 
