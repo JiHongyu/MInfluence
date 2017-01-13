@@ -21,10 +21,10 @@ network_data.print_info()
 g, spread_methods, target_type = network_data.data
 
 # 种子点数 K 的选择
-K = 100
+K = 80
 
 # 重复模拟次数
-repeat_number = 400
+repeat_number = 500
 
 
 simulator = SP.NetworkDiffusion(g, spread_methods, prec_neighbors=None, repeat_number=repeat_number)
@@ -33,8 +33,8 @@ algorithms = collections.OrderedDict()
 algorithms['degr_c'] = MI.Centrality(simulator, target_type, K, nx.degree_centrality)
 # algorithms['vec_c'] = MI.Centrality(simulator, target_type, K, functools.partial(nx.eigenvector_centrality, tol=1.0e-3, weight=None))
 algorithms['greedy'] = MI.OriGreedy(simulator, target_type, K)
+algorithms['heapa'] = MI.HeapAlgo(simulator, target_type, K)
 algorithms['celf++'] = MI.CelfPlus(simulator, target_type, K)
-
 mi_res = collections.OrderedDict()
 time_res = collections.OrderedDict()
 

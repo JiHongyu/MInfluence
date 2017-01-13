@@ -66,14 +66,19 @@ class CelfPlus(ABC):
                 self.a_vertices_order.append(celf.v)
                 last_seed = celf.v
                 info.append(celf.g1)
-                cur_best = hp[0].v
+                cur_best = None
                 continue
             elif celf.prev_best == last_seed:
                 celf.mg1, celf.g1 = celf.mg2, celf.g2
             else:
                 celf.mg1, celf.g1 = self.simulator.marginal_gain(self.a_vertices, celf.v, self.target_type)
-                celf.prev_best = cur_best
-                celf.mg2, celf.g2 = self.simulator.marginal_gain(self.a_vertices.union({cur_best}), celf.v, self.target_type)
+
+                if cur_best is None:
+                    celf.mg2, celf.g2 = celf.mg1, celf.g1
+                    celf.prev_best = celf.v
+                else:
+                    celf.prev_best = cur_best
+                    celf.mg2, celf.g2 = self.simulator.marginal_gain(self.a_vertices.union({cur_best}), celf.v, self.target_type)
 
             celf.flag = len(self.a_vertices)
             heapq.heappush(hp, celf)
